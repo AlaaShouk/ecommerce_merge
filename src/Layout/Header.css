@@ -1,0 +1,28 @@
+.top-header {
+    font-size: 14px;
+}
+
+.top-header .container {
+    position: relative;
+}
+
+.language {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.language select {
+    width: auto;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.language select:focus {
+    box-shadow: none;
+}
+
+.language select option {
+    color: black;
+}

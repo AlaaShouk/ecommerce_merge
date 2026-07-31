@@ -1,0 +1,41 @@
+.login-page {
+    background: #fff;
+}
+
+.login-image {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+}
+
+.login-box {
+    width: 380px;
+}
+
+.login-box h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.login-box input {
+    padding: 15px 0;
+    font-size: 15px;
+}
+
+.login-box input::placeholder {
+    color: #999;
+}
+
+.login-box input:focus {
+    border-color: #000 !important;
+    box-shadow: none;
+}
+
+.btn-danger {
+    background: #db4444;
+    border: none;
+}
+
+.btn-danger:hover {
+    background: #c73434;
+}

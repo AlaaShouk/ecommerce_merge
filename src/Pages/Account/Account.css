@@ -1,0 +1,134 @@
+.account-page {
+  padding: 40px 0 80px;
+}
+
+.account-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.breadcrumb-text {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+.breadcrumb-text span {
+  color: #000;
+}
+
+.welcome-text {
+  font-size: 14px;
+  margin: 0;
+}
+
+.welcome-text span {
+  color: #db4444;
+  font-weight: 500;
+}
+
+
+.account-sidebar {
+  margin-bottom: 30px;
+}
+
+.account-sidebar h6 {
+  font-weight: 500;
+  margin-bottom: 16px;
+  margin-top: 24px;
+}
+
+.account-sidebar h6:first-child {
+  margin-top: 0;
+}
+
+.account-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.account-sidebar ul li {
+  color: #666;
+  font-size: 14px;
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+.account-sidebar ul li.active {
+  color: #db4444;
+}
+
+
+.account-form-box {
+  border: 1px solid #eee;
+  border-radius: 4px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+  padding: 40px;
+  margin-bottom: 40px;
+}
+
+.form-title {
+  color: #db4444;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+
+.account-form-box label {
+  font-size: 14px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.account-form-box .row > div {
+  margin-bottom: 20px;
+}
+
+.account-form-box input {
+  background: #f5f5f5;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 14px;
+}
+
+.account-form-box input:focus {
+  background: #f5f5f5;
+  box-shadow: none;
+  outline: 1px solid #db4444;
+}
+
+.password-title {
+  margin-top: 10px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.cancel-btn {
+  background: transparent;
+  border: none;
+  color: #000;
+}
+
+.save-btn {
+  background: #db4444;
+  color: #fff;
+  padding: 10px 30px;
+  border-radius: 4px;
+  border: none;
+}
+
+.save-btn:hover {
+  background: #c73737;
+  color: #fff;
+}
