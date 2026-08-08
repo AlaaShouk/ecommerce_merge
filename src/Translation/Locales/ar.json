@@ -1,0 +1,21 @@
+{
+  "common": {
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "search": "بحث"
+  },
+  "home": {
+    "title": "الصفحة الرئيسية",
+    "description": "مرحباً بك في موقعنا"
+  },
+ "navbar": {
+    "logo": "Exclusive",
+    "home": "الرئيسية",
+    "contact": "اتصل بنا",
+    "about": "من نحن",
+    "signup": "إنشاء حساب",
+    "searchPlaceholder": "ماذا تبحث عنه؟"
+  }
+}

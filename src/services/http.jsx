@@ -57,27 +57,33 @@ export async function callApiPost(url,bodyObj,GetErrorMsg) {
   }
 
   export async function callApiGet(url, GetErrorMsg) {
-  const res = await fetch(
-    "https://ecommerce.monzeryshop.shop/api/" + url,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+  try {
+    const res = await fetch(
+      "https://ecommerce.monzeryshop.shop/api/" + url,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const responseBody = await res.json();
+
+    if (!res.ok) {
+      console.log("Status:", res.status);
+      console.log("Response:", responseBody);
+
+      throw new Error(
+        GetErrorMsg
+          ? GetErrorMsg(responseBody)
+          : responseBody.message || "حدث خطأ"
+      );
     }
-  );
 
-  const responseBody = await res.json();
-  if (!res.ok) {
-
+    return responseBody;
+  } catch (err) {
+    console.error(err);
     return null;
   }
-  return responseBody;
 }
-
-
-
-
-
-    
-

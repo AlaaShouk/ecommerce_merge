@@ -2,7 +2,6 @@ import {
   Box,
   Breadcrumbs,
   Container,
-  Grid,
   Link,
   Typography,
 } from "@mui/material";
@@ -15,13 +14,14 @@ export default function Cart() {
   return (
     <Container
       maxWidth="lg"
-        sx={{
-            mt: 8,
-            mb: 8,
-        }}
+      sx={{
+        mt: { xs: 4, md: 8 },
+        mb: { xs: 4, md: 8 },
+      }}
     >
-      <Breadcrumbs sx={{ mb: 6 }}>
-        <Link underline="none" color="text.secondary">
+      {/* Breadcrumb */}
+      <Breadcrumbs sx={{ mb: { xs: 3, md: 6 } }}>
+        <Link underline="hover" color="text.secondary">
           Home
         </Link>
 
@@ -30,21 +30,50 @@ export default function Cart() {
         </Typography>
       </Breadcrumbs>
 
+      {/* Cart Table */}
       <CartTable />
 
+      {/* Coupon + Cart Total */}
       <Box
-    sx={{
-        mt: 6,
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "flex-start",
-        gap: 6,
-    }}
->
-    <CouponSection />
+        sx={{
+          mt: { xs: 4, md: 6 },
+          display: "flex",
+          flexDirection: {
+            xs: "column",
+            md: "row",
+          },
+          justifyContent: "space-between",
+          alignItems: {
+            xs: "stretch",
+            md: "flex-start",
+          },
+          gap: {
+            xs: 4,
+            md: 6,
+          },
+        }}
+      >
+        <Box
+          sx={{
+            flex: 1,
+            width: "100%",
+          }}
+        >
+          <CouponSection />
+        </Box>
 
-    <CartTotal />
-    </Box>
+        <Box
+          sx={{
+            width: {
+              xs: "100%",
+              md: 420,
+            },
+            flexShrink: 0,
+          }}
+        >
+          <CartTotal />
+        </Box>
+      </Box>
     </Container>
   );
 }

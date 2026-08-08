@@ -1,32 +1,30 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {callApiGet} from "../../services/http"
+import { callApiGet } from "../../services/http";
+
 import {
-  Box,
-  Breadcrumbs,
   Container,
   Grid,
-  Link,
+  Breadcrumbs,
   Typography,
+  Link,
+  Box,
+  CircularProgress,
 } from "@mui/material";
-
 
 import ProductGallery from "../../Components/ProductGallery";
 import ProductInfo from "../../Components/ProductInfo";
-import RelatedProducts from "../../Components/RelatedProducts.jsx"
+import RelatedProducts from "../../Components/RelatedProducts";
 
 export default function ProductDetails() {
+  const { id } = useParams();
 
-    const { id } = useParams(); 
-    const [product, setProduct] = useState(null);
-    const [loading, setLoading] = useState(true);
-    console.log(id);
-  
+  const [product, setProduct] = useState(null);
+
   useEffect(() => {
     async function getProduct() {
       const response = await callApiGet(
         `product/${id}`,
-        // "HomePage",
         (err) => err.message || "حدث خطأ"
       );
 
@@ -39,10 +37,21 @@ export default function ProductDetails() {
   }, [id]);
 
   if (!product) {
-    return <Typography>Loading...</Typography>;
+    return (
+      <Box
+        sx={{
+          minHeight: "60vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
-   
-     const sizes = [
+
+  const sizes = [
     ...new Set(
       product.attributes
         .filter((item) => item.name === "size")
@@ -50,7 +59,7 @@ export default function ProductDetails() {
     ),
   ];
 
-    const colors = [
+  const colors = [
     ...new Set(
       product.attributes
         .filter((item) => item.name === "color")
@@ -60,12 +69,26 @@ export default function ProductDetails() {
 
   return (
     <Container
-       maxWidth="lg"
-  sx={{
-    py: 8,
-  }}
+      maxWidth="xl"
+      sx={{
+        py: {
+          xs: 3,
+          sm: 5,
+          md: 8,
+        },
+      }}
     >
-      <Breadcrumbs sx={{ mb: 7 }}>
+      {/* Breadcrumb */}
+      <Breadcrumbs
+        separator="/"
+        sx={{
+          mb: {
+            xs: 3,
+            md: 6,
+          },
+          flexWrap: "wrap",
+        }}
+      >
         <Link underline="hover" color="inherit">
           Account
         </Link>
@@ -75,35 +98,65 @@ export default function ProductDetails() {
         </Link>
 
         <Typography color="text.primary">
-          Havic HV G-92 Gamepad
+          {product.name}
         </Typography>
-       </Breadcrumbs>
+      </Breadcrumbs>
 
-        <Container maxWidth="lg" sx={{ mt: 8 }}>
-        <Grid container spacing={6}>
-            <Grid size={{ xs: 12, md: 7 }}>
-            <ProductGallery
-              heroImage={product.hero_image}
-              media={product.media}
-            />
-            </Grid>
-
-            <Grid size={{ xs: 12, md: 5 }}>
-            <ProductInfo 
-              price={product.price}
-              name={product.name}
-              rating={Number(product.reviews)}
-              reviews={product.reviews_count}
-              description={product.description}
-              sizes={sizes}
-              colors={colors}
-           />
-            </Grid>
+      {/* Product */}
+      <Grid
+        container
+        rowSpacing={5}
+        columnSpacing={{
+          xs: 2,
+          md: 6,
+        }}
+        alignItems="flex-start"
+      >
+        {/* Images */}
+        <Grid
+          size={{
+            xs: 12,
+            md: 7,
+          }}
+        >
+          <ProductGallery
+            heroImage={product.hero_image}
+            media={product.media}
+          />
         </Grid>
-        </Container>
 
-        <RelatedProducts />
+        {/* Info */}
+        <Grid
+          size={{
+            xs: 12,
+            md: 5,
+          }}
+        >
+          <ProductInfo
+            name={product.name}
+            price={product.price}
+            rating={Number(product.reviews)}
+            reviews={product.reviews_count}
+            description={product.description}
+            sizes={sizes}
+            colors={colors}
+          />
+        </Grid>
+      </Grid>
 
+      {/* Related Products */}
+      <Box
+        sx={{
+          mt: {
+            xs: 8,
+            md: 12,
+          },
+        }}
+      >
+        <RelatedProducts
+          relatedProdsIds={product.related_products}
+        />
+      </Box>
     </Container>
   );
 }

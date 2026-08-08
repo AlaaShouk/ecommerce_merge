@@ -8,27 +8,33 @@ import {
 import ProductCard from "./ProductCard";
 import { callApiGet } from "../services/http";
 
-export default function RelatedProducts({id}) {
+export default function RelatedProducts({ relatedProdsIds = [] }) {
+     if (!relatedProdsIds.length) return null;
+      // const [products, setProducts] = useState([]);
+       
+     
 
-     const [products, setProducts] = useState([]);
-        useEffect(() => {
-        async function fetchProducts() {
-        const products = await callApiGet(
-           `product/${id}`,
-            (err) => err.message || "حدث خطأ"
-        );
+//       useEffect(() => {
+//         async function fetchProducts() {
+//         const response = await callApiGet(`product/${id}`,
+//               (err) => err.message || "حدث خطأ"
+//           );
 
-        if (response) {
-            setProducts(response.data);
-        }
-        }
+//           if (response) {
+//               console.log("response.data", response.data.related_products
+// );
+//               // setProducts(response.data);
+//           }
+//           console.log("response", response);
+//         }
 
-        fetchProducts();
-    }, [id]);
+//         fetchProducts();
+//     }, [id]);
+  
 
    return (
     <Box mt={10}>
-
+      {/* Section Title */}
       <Box
         sx={{
           display: "flex",
@@ -49,39 +55,41 @@ export default function RelatedProducts({id}) {
         <Typography
           color="#DB4444"
           fontWeight={600}
+          fontSize={{
+            xs: 18,
+            sm: 20,
+            md: 22,
+          }}
         >
-          Related Item
+          Related Items
         </Typography>
       </Box>
 
-      <Grid container spacing={3}>
-        <Box
-          sx={{
-                mt: 8,
-                display: "grid",
-                gridTemplateColumns: {
-                xs: "1fr",
-                sm: "repeat(2,1fr)",
-                md: "repeat(4,1fr)",
-                },
-                gap: 4,
-            }}
-        >
-        {products.map((product) => (
-            <ProductCard
-            // key={product.id}
-            // image={product.image}
-            // title={product.title}
-            // price={product.price}
-            // oldPrice={(product.price * 1.25).toFixed(2)}
-            // discount={20}
-            // rating={product.rating.rate}
-            // reviews={product.rating.count}
-            />
+      {/* Products */}
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "repeat(1, 1fr)",
+            sm: "repeat(2, 1fr)",
+            md: "repeat(3, 1fr)",
+            lg: "repeat(4, 1fr)",
+          },
+          gap: {
+            xs: 2,
+            sm: 3,
+            md: 4,
+          },
+          justifyItems: "center",
+        }}
+      >
+        {relatedProdsIds.map((product) => (
+          <ProductCard
+            key={product.id}
+            id={product.id}
+          />
         ))}
-        </Box>
-      </Grid>
-
+      </Box>
     </Box>
   );
 }

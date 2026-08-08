@@ -1,0 +1,21 @@
+{
+  "common": {
+    "login": "Login",
+    "logout": "Logout",
+    "save": "Save",
+    "cancel": "Cancel",
+    "search": "Search"
+  },
+  "home": {
+    "title": "Home",
+    "description": "Welcome to our website"
+  },
+  "navbar": {
+    "logo": "Exclusive",
+    "home": "Home",
+    "contact": "Contact",
+    "about": "About",
+    "signup": "Sign Up",
+    "searchPlaceholder": "What are you looking for?"
+  }
+}

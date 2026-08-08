@@ -1,48 +1,80 @@
-import { useState , useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Box, Paper, Stack } from "@mui/material";
 
 export default function ProductGallery({ heroImage, media }) {
+  const baseUrl = "https://ecommerce.monzeryshop.shop/";
 
-  
-const baseUrl = "https://ecommerce.monzeryshop.shop/";
+  const images = useMemo(() => {
+    return [
+      ...(heroImage ? [baseUrl + heroImage.path] : []),
+      ...(media?.map((img) => baseUrl + img.path) || []),
+    ];
+  }, [heroImage, media]);
 
-const images = [
-  ...(heroImage ? [baseUrl + heroImage.path] : []),
-  ...(media?.map((img) => baseUrl + img.path) || []),
-];
+  const [selectedImage, setSelectedImage] = useState(images[0]);
 
-
-   const [selectedImage, setSelectedImage] = useState(images[0]);
-  
-useEffect(() => {
-  if (images.length > 0) {
-    setSelectedImage(images[0]);
-  }
-}, [images]);
-  console.log(images);
-
+  useEffect(() => {
+    if (images.length > 0) {
+      setSelectedImage(images[0]);
+    }
+  }, [images]);
 
   return (
     <Box
       sx={{
         display: "flex",
-        gap: 3,
+        flexDirection: {
+          xs: "column",
+          md: "row",
+        },
+        gap: {
+          xs: 2,
+          md: 3,
+        },
         width: "100%",
-        maxWidth: 650,
       }}
     >
- 
-      <Stack spacing={2}>
+      {/* Thumbnails */}
+      <Stack
+        direction={{
+          xs: "row",
+          md: "column",
+        }}
+        spacing={2}
+        sx={{
+          overflowX: {
+            xs: "auto",
+            md: "visible",
+          },
+          overflowY: "hidden",
+          pb: {
+            xs: 1,
+            md: 0,
+          },
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
+        }}
+      >
         {images.map((img, index) => (
           <Paper
             key={index}
             elevation={0}
             onClick={() => setSelectedImage(img)}
             sx={{
-              width: 90,
-              height: 90,
+              flexShrink: 0,
+              width: {
+                xs: 70,
+                sm: 80,
+                md: 90,
+              },
+              height: {
+                xs: 70,
+                sm: 80,
+                md: 90,
+              },
               bgcolor: "#F5F5F5",
-              borderRadius: 1,
+              borderRadius: 2,
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -51,7 +83,7 @@ useEffect(() => {
                 selectedImage === img
                   ? "2px solid #DB4444"
                   : "1px solid transparent",
-              transition: "all .2s",
+              transition: ".2s",
 
               "&:hover": {
                 border: "2px solid #DB4444",
@@ -63,7 +95,8 @@ useEffect(() => {
               src={img}
               alt={`Product ${index + 1}`}
               sx={{
-                width: "80%",
+                width: "75%",
+                height: "75%",
                 objectFit: "contain",
               }}
             />
@@ -71,17 +104,27 @@ useEffect(() => {
         ))}
       </Stack>
 
+      {/* Main Image */}
       <Paper
         elevation={0}
         sx={{
           flex: 1,
-          height: 500,
+          width: "100%",
+          minHeight: {
+            xs: 300,
+            sm: 400,
+            md: 500,
+          },
           bgcolor: "#F5F5F5",
-          borderRadius: 1,
+          borderRadius: 2,
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          p: 4,
+          p: {
+            xs: 2,
+            sm: 3,
+            md: 4,
+          },
         }}
       >
         <Box
@@ -90,7 +133,12 @@ useEffect(() => {
           alt="Main Product"
           sx={{
             width: "100%",
-            maxWidth: 360,
+            maxWidth: {
+              xs: 220,
+              sm: 300,
+              md: 380,
+            },
+            maxHeight: "100%",
             objectFit: "contain",
           }}
         />

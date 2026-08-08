@@ -7,36 +7,52 @@ import {
 export default function CouponSection() {
   return (
     <Box
-     sx={{
+      sx={{
         display: "flex",
-        alignItems: "center",
-        columnGap: "24px",
-    }}
+        flexDirection: {
+          xs: "column",
+          sm: "row",
+        },
+        alignItems: {
+          xs: "stretch",
+          sm: "center",
+        },
+        gap: 2,
+        width: "100%",
+      }}
     >
       <TextField
         placeholder="Coupon Code"
+        fullWidth
         sx={{
-           width: 300,
+          maxWidth: {
+            xs: "100%",
+            sm: 300,
+          },
           "& .MuiOutlinedInput-root": {
             height: 56,
-            borderRadius: "4px",
-          }
+            borderRadius: 1,
+          },
         }}
       />
 
       <Button
         variant="contained"
         sx={{
-              width: 210,
-        height: 56,
-        bgcolor: "#DB4444",
-        textTransform: "none",
-        borderRadius: "4px",
-        boxShadow: "none",
-        "&:hover": {
+          width: {
+            xs: "100%",
+            sm: 210,
+          },
+          minHeight: 56,
+          bgcolor: "#DB4444",
+          textTransform: "none",
+          borderRadius: 1,
+          boxShadow: "none",
+
+          "&:hover": {
             bgcolor: "#C73838",
             boxShadow: "none",
-        },
+          },
         }}
       >
         Apply Coupon

@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+import { callApiGet } from "../services/http";
 import {
   Box,
   Card,
@@ -10,24 +12,49 @@ import {
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 
-export default function ProductCard({
-  image,
-  title,
-  price,
-  oldPrice,
-  discount,
-  rating = 5,
-  reviews = 65,
-}) {
+export default function ProductCard({ id }) {
+  const [product, setProduct] = useState(null);
+
+  async function fetchProduct() {
+    const response = await callApiGet(
+      `product/${id}`,
+      (err) => err.message || "حدث خطأ"
+    );
+
+    if (response) {
+      setProduct({
+        title: response.data.name,
+        image:
+          "https://ecommerce.monzeryshop.shop/" +
+          response.data.hero_image?.path,
+        price: response.data.price,
+        oldPrice: response.data.price_before_discount,
+        rating: response.data.rating,
+        reviews: response.data.reviews_count,
+        discount: response.data.discount_percentage,
+      });
+    }
+  }
+
+  useEffect(() => {
+    if (!id) return;
+    fetchProduct();
+  }, [id]);
+
   return (
     <Card
       elevation={0}
       sx={{
-        width: 220,
+        width: "100%",
+        maxWidth: 220,
+        mx: "auto",
         borderRadius: 2,
         overflow: "hidden",
         cursor: "pointer",
         transition: ".3s",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
 
         "&:hover": {
           transform: "translateY(-4px)",
@@ -40,14 +67,19 @@ export default function ProductCard({
         sx={{
           position: "relative",
           bgcolor: "#F5F5F5",
-          height: 220,
+          height: {
+            xs: 180,
+            sm: 200,
+            md: 220,
+          },
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          p: 2,
         }}
       >
         {/* Discount */}
-        {discount && (
+        {!!product?.discount && (
           <Box
             sx={{
               position: "absolute",
@@ -59,9 +91,10 @@ export default function ProductCard({
               py: 0.3,
               borderRadius: 1,
               fontSize: 12,
+              fontWeight: 600,
             }}
           >
-            -{discount}%
+            -{product.discount}%
           </Box>
         )}
 
@@ -82,7 +115,6 @@ export default function ProductCard({
               bgcolor: "#fff",
               width: 34,
               height: 34,
-
               "&:hover": {
                 bgcolor: "#fff",
               },
@@ -97,7 +129,6 @@ export default function ProductCard({
               bgcolor: "#fff",
               width: 34,
               height: 34,
-
               "&:hover": {
                 bgcolor: "#fff",
               },
@@ -109,10 +140,12 @@ export default function ProductCard({
 
         <Box
           component="img"
-          src={image}
-          alt={title}
+          src={product?.image}
+          alt={product?.title}
           sx={{
-            width: 150,
+            width: "70%",
+            maxWidth: 150,
+            maxHeight: "80%",
             objectFit: "contain",
           }}
         />
@@ -122,16 +155,28 @@ export default function ProductCard({
       <CardContent
         sx={{
           p: 2,
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <Typography
           sx={{
             fontWeight: 500,
-            fontSize: 16,
+            fontSize: {
+              xs: 14,
+              sm: 15,
+              md: 16,
+            },
             mb: 1,
+            minHeight: 45,
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
           }}
         >
-          {title}
+          {product?.title}
         </Typography>
 
         <Box
@@ -139,6 +184,7 @@ export default function ProductCard({
             display: "flex",
             gap: 1,
             alignItems: "center",
+            flexWrap: "wrap",
             mb: 1,
           }}
         >
@@ -146,20 +192,27 @@ export default function ProductCard({
             sx={{
               color: "#DB4444",
               fontWeight: 600,
+              fontSize: {
+                xs: 14,
+                md: 16,
+              },
             }}
           >
-            ${price}
+            ${product?.price}
           </Typography>
 
-          {oldPrice && (
+          {product?.oldPrice && (
             <Typography
               sx={{
                 color: "#999",
                 textDecoration: "line-through",
-                fontSize: 14,
+                fontSize: {
+                  xs: 12,
+                  md: 14,
+                },
               }}
             >
-              ${oldPrice}
+              ${product.oldPrice}
             </Typography>
           )}
         </Box>
@@ -169,10 +222,12 @@ export default function ProductCard({
             display: "flex",
             alignItems: "center",
             gap: 1,
+            flexWrap: "wrap",
+            mt: "auto",
           }}
         >
           <Rating
-            value={rating}
+            value={Number(product?.rating) || 0}
             readOnly
             precision={0.5}
             size="small"
@@ -181,10 +236,13 @@ export default function ProductCard({
           <Typography
             sx={{
               color: "#777",
-              fontSize: 14,
+              fontSize: {
+                xs: 12,
+                md: 14,
+              },
             }}
           >
-            ({reviews})
+            ({product?.reviews})
           </Typography>
         </Box>
       </CardContent>
